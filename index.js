@@ -59,6 +59,15 @@ client.connect((err) => {
             res.send(result.insertedCount > 0);
         });
     });
+
+    // Get orders by email filtered
+    app.get("/orders", (req, res) => {
+        orderCollection
+            .find({ email: req.query.email })
+            .toArray((err, result) => {
+                res.send(result);
+            });
+    });
 });
 
 app.get("/", (req, res) => {
