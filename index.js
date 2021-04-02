@@ -45,7 +45,7 @@ client.connect((err) => {
     });
 
     // Get single product
-    app.get("/Product/:id", (req, res) => {
+    app.get("/product/:id", (req, res) => {
         const id = ObjectID(req.params.id);
         productCollection.find({ _id: id }).toArray((err, product) => {
             res.send(product[0]);
