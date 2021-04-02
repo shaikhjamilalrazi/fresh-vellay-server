@@ -51,6 +51,14 @@ client.connect((err) => {
             res.send(product[0]);
         });
     });
+
+    // Place Order
+    app.post("/placeOrder", (req, res) => {
+        const order = req.body;
+        orderCollection.insertOne(order).then((result) => {
+            res.send(result.insertedCount > 0);
+        });
+    });
 });
 
 app.get("/", (req, res) => {
