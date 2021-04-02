@@ -19,6 +19,8 @@ const client = new MongoClient(uri, {
 client.connect((err) => {
     const productCollection = client.db("freashValley").collection("products");
 
+    const orderCollection = client.db("freashValley").collection("orders");
+
     // Insert data api
     app.post("/addProduct", (req, res) => {
         const newEvent = req.body;
@@ -29,8 +31,8 @@ client.connect((err) => {
 
     // Getting Data api
     app.get("/allProducts", (req, res) => {
-        productCollection.find().toArray((err, items) => {
-            res.send(items);
+        productCollection.find().toArray((err, products) => {
+            res.send(products);
         });
     });
 
@@ -40,6 +42,14 @@ client.connect((err) => {
         productCollection
             .findOneAndDelete({ _id: id })
             .then((result) => console.log(result));
+    });
+
+    // Get single product
+    app.get("/Product/:id", (req, res) => {
+        const id = ObjectID(req.params.id);
+        productCollection.find({ _id: id }).toArray((err, product) => {
+            res.send(product[0]);
+        });
     });
 });
 
